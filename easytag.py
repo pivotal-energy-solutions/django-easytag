@@ -4,7 +4,7 @@ from functools import partial, wraps
 from django.template import Node
 from django.template.base import parse_bits
 
-class EasyTag(template.Node):
+class EasyTag(Node):
     """
     A ``template.Node`` subclass that adds some automatic mechanisms which greatly simplify the
     common block-style tasks.
