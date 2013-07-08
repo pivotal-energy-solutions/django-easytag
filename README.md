@@ -18,18 +18,11 @@ MyTagClass.register_tag(register)
 register.tag(MyTagClass.name, MyTagClass.parser)
 ```
 
-A simpler ``register()`` method cannot be added to EasyTag, since EasyTag won't have an active
-reference to your tag's specific Library instance, so it would be registered to the wrong
-library at runtime.
+A simpler ``register()`` method cannot be added to EasyTag, since EasyTag won't have an active reference to your tag's specific Library instance, so it would be registered to the wrong library at runtime.
 
-If ``end_tag`` is True, this tag will automatically parse to a matching ``{% end{name} %}`` tag.
-If ``end_tag`` is a string, it will be taken as-is for the end-block tag.  It won't add the
-"end" prefix either, so pick a smart name!
+If ``end_tag`` is True, this tag will automatically parse to a matching ``{% end{name} %}`` tag. If ``end_tag`` is a string, it will be taken as-is for the end-block tag.  It won't add the "end" prefix either, so pick a smart name!
 
-EasyTag enables automatic forwarding of parameters sent to the tag to a method on your tag.  The
-method should match the tag's ``name`` attribute, and it is treated like a render() method.  The
-only difference is that you get the ``nodelist`` parameter, which holds all of the content
-wrapped by your tag:
+EasyTag enables automatic forwarding of parameters sent to the tag to a method on your tag.  The method should match the tag's ``name`` attribute, and it is treated like a render() method.  The only difference is that you get the ``nodelist`` parameter, which holds all of the content wrapped by your tag:
 
 ```python
 class MyTag(EasyTag):
@@ -41,13 +34,9 @@ class MyTag(EasyTag):
         return nodelist.render(context)
 ```
 
-In Django parlance, a "nodelist" is a collection of template pieces that all know how to render
-themselves, including chunks of plain text.
+In Django parlance, a "nodelist" is a collection of template pieces that all know how to render themselves, including chunks of plain text.
 
-Your tag's method requires ``context`` and ``nodelist``, but you can add any number of normal
-function arguments to its signature, exactly like a Django ``simple_tag``.  The parser will
-inspect you method and make sure there are no missing or extra arguments, creating a really
-simple interface for sending parameters to the tag:
+Your tag's method requires ``context`` and ``nodelist``, but you can add any number of normal function arguments to its signature, exactly like a Django ``simple_tag``.  The parser will inspect you method and make sure there are no missing or extra arguments, creating a really simple interface for sending parameters to the tag:
 
 ```python
 # Handler inside of the MyTag class
@@ -67,12 +56,9 @@ def my_tag(self, context, nodelist, myflag=False):
 {% mytag %} Other content {% endmytag %}
 ```
 
-Tag handlers support all the fancy stuff: required params, the *args catch-all, and the
-**kwargs catch-all.
+Tag handlers support all the fancy stuff: required params, the *args catch-all, and the **kwargs catch-all.
 
-``intermediate_tags`` is a list of strings that acts as a declaration of all possible
-intermediate tag names that can show up in the body of your main tag.  For example, if you use
-``intermediate_tags = ["unless"]``, you could write something like this in your templates:
+``intermediate_tags`` is a list of strings that acts as a declaration of all possible intermediate tag names that can show up in the body of your main tag.  For example, if you use ``intermediate_tags = ["unless"]``, you could write something like this in your templates:
 
 ```html
 {% mytag myflag=True %}
@@ -82,10 +68,7 @@ intermediate tag names that can show up in the body of your main tag.  For examp
 {% endmytag %}
 ```
 
-By default, both of these sections are parsed and rendered, but they are handed off to separate
-methods on your tag class for processing, allowing you to dynamically decide if or how to render
-the sibling branches.  In the following example, you a variable is used to toggle which arm of
-the compound tag is rendered:
+By default, both of these sections are parsed and rendered, but they are handed off to separate methods on your tag class for processing, allowing you to dynamically decide if or how to render the sibling branches.  In the following example, a variable is used to toggle which arm of the compound tag is rendered:
 
 ```python
 class MyTag(EasyTag):
@@ -102,11 +85,9 @@ class MyTag(EasyTag):
         return ''
 ```
 
-Because the ``mytag`` handler is always executed first, you can rely on ``self.myflag`` being
-set by the time the ``unless`` handler is called.
+Because the ``mytag`` handler is always executed first, you can rely on ``self.myflag`` being set by the time the ``unless`` handler is called.
 
-Note that you can have more than one type of intermediate tag, and they can appear in any order,
-and even appear multiple times:
+Note that you can have more than one type of intermediate tag, and they can appear in any order, and even appear multiple times:
 
 ```html
 {% mytag %}
