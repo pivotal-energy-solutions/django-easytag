@@ -18,7 +18,6 @@ setup(name='django-datatable-view',
            'Topic :: Software Development',
            'License :: OSI Approved :: Apache Software License',
       ],
-      package_data={'eastytag': ['easytag.py']},
-      include_package_data=True,
+      py_modules=['easytag'],
       requires=['django (>=1.2)'],
 )
