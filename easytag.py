@@ -1,10 +1,8 @@
 from inspect import getargspec
 from functools import partial, wraps
 
-from django import template
+from django.template import Node
 from django.template.base import parse_bits
-
-register = template.Library()
 
 class EasyTag(template.Node):
     """
