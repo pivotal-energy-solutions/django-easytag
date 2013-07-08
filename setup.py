@@ -2,7 +2,7 @@
 
 from setuptools import setup, find_packages
 
-setup(name='django-datatable-view',
+setup(name='django-easytag',
       version='1.0',
       description='A generic class to facilitate the creation of complex template tags.',
       author='Tim Valenta',
