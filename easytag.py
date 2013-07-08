@@ -194,7 +194,6 @@ class EasyTag(Node):
 
             # If this is the end, remove the end{name} tag from the processing queue.
             if token.contents == end_tag:
-                parser.delete_first_token()
                 stop = True
 
         node.nodelists = nodelists
