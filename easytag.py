@@ -83,9 +83,12 @@ class EasyTag(Node):
             token = parser.next_token()
             current_name = token.contents.split()[0]
 
-            # If this is the end, remove the end{name} tag from the processing queue.
+            # If this is the end, queue the optional endtoken handler.
             if token.contents == end_tag:
                 stop = True
+                endtoken_handler = getattr(node, token.contents, None)
+                if endtoken_handler:
+                    nodelists.append((endtoken_handler, None))
 
         node.nodelists = nodelists
         return node
@@ -102,7 +105,10 @@ class EasyTag(Node):
         """ Calls each handler with its associated nodelist, returning their joined strings. """
         content = []
         for handler, nodelist in self.nodelists:
-            content.append(handler(context=context, nodelist=nodelist))
+            kwargs = {'context': context}
+            if nodelist is not None:
+                kwargs['nodelist'] = nodelist
+            content.append(handler(**kwargs))
         return u"".join(map(unicode, content))
 
 

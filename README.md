@@ -161,3 +161,26 @@ def render(self, context):
     content = super(MyTag, self).render(context)
     return "<div id='wrapper'>%s</div>" % content
 ```
+
+## Adding an end-tag handler
+
+In some instances, you might want to think of appending extra output to the end of the tag.  This is technically possible by overriding the ``render()`` method as discussed just above, but it seemed fitting to acknowledge the end tag as a handler itself.
+
+You can optionally define a method on your tag that equals the tag's end-name, whatever you've set that up to be:
+
+```python
+class MyTag(EasyTag):
+    name = "my_tag"
+    end_tag = True
+
+    # ...
+
+    def endmy_tag(self, context):
+        return "some trailing content"
+```
+
+Note how there is no ``nodelist`` parameter in this case, since the end tag has no content that it is influencing.  It is up to you to return some string content.
+
+Also take note that the returned string is automatically sent through ``django.utils.safestring.mark_safe`` by Django when the content ultimately gets returned as a single large string from the ``render()`` method.
+
+This strategy is helpful for allowing intermediate tags to accumulate some information but not act on it until the end of the tag.
