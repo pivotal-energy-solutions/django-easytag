@@ -147,3 +147,17 @@ def section(self, context, nodelist, name):
 ```
 
 This works because the ``my_tag`` handler is always executed first, being the opening tag handler.
+
+## Wrapping the entire tag output, appending, prefixing, etc
+
+Because of the way your opening handler actually only handles the initial branch of template until the first intermediate tag, you can't use this particular spot as a way to wrap the entire output.
+
+Instead, you should override the built-in ``render()`` method of the tag.  This method is provided by default on a ``template.Node`` object.  The ``EasyTag.render()`` implementation iterates all of your branches and concatenates their output.
+
+Consequently, if you would like to wrap all of the output in some HTML, append markup to the end, etc, you should call ``super()`` to get the normal output, and then modify it as you see fit:
+
+```python
+def render(self, context):
+    content = super(MyTag, self).render(context)
+    return "<div id='wrapper'>%s</div>" % content
+```
