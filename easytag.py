@@ -37,7 +37,8 @@ class EasyTag(Node):
 
         bits = token.split_contents()[1:]
         args, kwargs = parse_bits(parser, bits, params, varargs, varkw, defaults, None, name)
-        return partial(wrapped, *args, **kwargs)
+        kwargs.update(zip(params, args))
+        return partial(wrapped, **kwargs)
 
     @classmethod
     def parser(cls, parser, token):
