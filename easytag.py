@@ -55,7 +55,7 @@ class EasyTag(Node):
                 parse_until.extend(list(cls.intermediate_tags))
 
             if cls.end_tag is True:
-                end_tag = "end{}".format(cls.name)
+                end_tag = "end{0}".format(cls.name)
             else:
                 end_tag = cls.end_tag
             parse_until.append(end_tag)
