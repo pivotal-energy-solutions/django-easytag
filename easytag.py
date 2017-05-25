@@ -2,7 +2,10 @@ from inspect import getargspec
 from functools import partial, wraps
 
 from django.template import Node
-from django.template.base import parse_bits
+try:
+    from django.template.library import parse_bits
+except ImportError:
+    from django.template.base import parse_bits
 
 class EasyTag(Node):
     name = None
