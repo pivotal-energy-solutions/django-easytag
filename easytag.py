@@ -1,11 +1,13 @@
 from inspect import getargspec
 from functools import partial, wraps
+import six
 
 from django.template import Node
 try:
     from django.template.library import parse_bits
 except ImportError:
     from django.template.base import parse_bits
+
 
 class EasyTag(Node):
     name = None
@@ -113,6 +115,4 @@ class EasyTag(Node):
             if nodelist is not None:
                 kwargs['nodelist'] = nodelist
             content.append(handler(**kwargs))
-        return u"".join(map(unicode, content))
-
-
+        return six.u("".join(map(six.u, content)))
