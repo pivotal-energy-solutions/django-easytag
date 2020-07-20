@@ -32,8 +32,7 @@ class EasyTag(Node):
         Returns a wrapped partial of ``handler`` with the arguments supplied by the calling
         template.  Errors will bubble up for invalid or missing arguments to the handler.
         """
-        _data = getfullargspec(handler)
-        params, varargs, varkw, defaults, _kwonlyargs, _kwonlydefaults, _annotations = _data
+        params, varargs, varkw, defaults = getargspec(handler)
         wrapped = cls.wrap_handler(handler)
         params.pop(0)  # removes inspected 'self' from required tag arguments
 
@@ -43,7 +42,16 @@ class EasyTag(Node):
                 params.pop(params.index(param))
 
         bits = token.split_contents()[1:]
-        args, kwargs = parse_bits(parser, bits, params, varargs, varkw, defaults, None, name)
+        args, kwargs = parse_bits(parser=parser,
+                                  bits=bits,
+                                  params=params,
+                                  varargs=varargs,
+                                  varkw=varkw,
+                                  defaults=defaults,
+                                  kwonly=[],
+                                  kwonly_defaults=[],
+                                  takes_context=None,
+                                  name=name)
         kwargs.update(zip(params, args))
         return partial(wrapped, **kwargs)
 
