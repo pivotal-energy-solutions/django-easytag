@@ -3,10 +3,10 @@
 from setuptools import setup, find_packages
 
 setup(name='django-easytag',
-      version='1.0',
+      version='2.0.0',
       description='A generic class to facilitate the creation of complex template tags.',
-      author='Tim Valenta',
-      author_email='tim.valenta@thesimpler.net',
+      author='Autumn Valenta',
+      author_email='steven@pivotal.energy',
       url='https://github.com/tiliv/django-easytag',
       license='Apache License 2.0',
       classifiers=[
