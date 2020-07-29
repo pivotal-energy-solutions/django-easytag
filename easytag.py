@@ -4,10 +4,7 @@ from functools import partial, wraps
 import six
 
 from django.template import Node
-try:
-    from django.template.library import parse_bits
-except ImportError:
-    from django.template.base import parse_bits
+from django.template.library import parse_bits
 
 
 class EasyTag(Node):
@@ -43,7 +40,8 @@ class EasyTag(Node):
                 params.pop(params.index(param))
 
         bits = token.split_contents()[1:]
-        args, kwargs = parse_bits(parser, bits, params, varargs, varkw, defaults, None, name)
+        args, kwargs = parse_bits(parser, bits, params, varargs, varkw,
+                                  defaults, (), (), None, name)
         kwargs.update(zip(params, args))
         return partial(wrapped, **kwargs)
 
