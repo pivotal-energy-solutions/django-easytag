@@ -3,7 +3,7 @@
 from setuptools import setup, find_packages
 
 setup(name='django-easytag',
-      version='2.0.0',
+      version='2.0.1',
       description='A generic class to facilitate the creation of complex template tags.',
       author='Autumn Valenta',
       author_email='steven@pivotal.energy',
